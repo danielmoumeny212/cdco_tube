@@ -1,0 +1,33 @@
+version: "3.9"
+services: 
+   app: 
+     build:  ./app
+     ports: 
+       - 3000:3000
+     volumes: 
+       - .:/app 
+     depends_on: 
+       - db 
+   file_uploader:
+     build: ./file_uploader
+     ports:
+      - 8080:8080
+     volumes:
+       - data-uploader:/uploads
+
+   db: 
+     image: mysql:8.0
+     restart: always
+     environment: 
+        MYSQL_DATABASE: video
+        MYSQL_PASSWORD: Manassedaniel2001@
+        MYSQL_ROOT_PASSWORD: Manassedaniel2001@
+     ports:
+       - 3306:3306
+     volumes:
+       - db-data:/var/lib/mysql  # You can define a named volume for data persistence
+     
+
+volumes:
+   db-data:  # Define a named volume for MySQL data
+   data-uploader:
